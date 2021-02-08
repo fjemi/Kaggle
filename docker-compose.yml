@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  dev_env:
+    container_name: ${container_name}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        port: ${port}
+        host_ip: ${host_ip}
+        notebook_dir: ${notebook_dir}
+    env_file:
+      - ./.env
+    restart: unless-stopped
+    volumes:
+      - ./data:/jupyter/data
+      - ./code:/jupyter/code
+    ports:
+      - ${port}:${port}
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.57.0/24
