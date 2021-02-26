@@ -8,14 +8,15 @@ services:
       dockerfile: ./Dockerfile
       args:
         port: ${port}
-        host_ip: ${host_ip}
-        notebook_dir: ${notebook_dir}
+        ip: ${ip}
+        base_dir: ${base_dir}
     env_file:
       - ./.env
     restart: unless-stopped
     volumes:
-      - ./extensions:${notebook_dir}/extensions
-      - ./notebooks:${notebook_dir}/notebooks
+      - ./extensions:${base_dir}/extensions
+      - ./notebooks:${base_dir}/notebooks
+      - ./jupyter_server_config.py:/root/.jupyter/jupyter_server_config.py
     ports:
       - ${port}:${port}
 
