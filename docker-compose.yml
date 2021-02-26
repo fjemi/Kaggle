@@ -14,8 +14,8 @@ services:
       - ./.env
     restart: unless-stopped
     volumes:
-      - ./data:/jupyter/data
-      - ./code:/jupyter/code
+      - ./extensions:${notebook_dir}/extensions
+      - ./notebooks:${notebook_dir}/notebooks
     ports:
       - ${port}:${port}
 
