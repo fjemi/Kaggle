@@ -1,31 +1,29 @@
-# python version
-from python:3.9-rc-slim-buster as build
+# build image
+from archlinux:latest as build
 
-# set env vars
-ENV LANG C.UTF-8
-ENV LC_ALL C.UTF-8
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONFAULTHANDLER 1
-
+# env variables to use
 arg port
 arg host_ip
 arg notebook_dir
+
 # set working directory and copy files
-workdir /jupyter
-copy ./code .
-copy ./data .
-
-workdir /tmp
+workdir /$notebook_dir
 copy Pipfile* ./
+copy ./notebooks ./notebooks
+copy ./extensions ./extensions
 
-from build as build-dependancies
+# install packages
+run ["sh", "-c", "pacman -Syu --noconfirm"]
+run ["sh", "-c", "pacman -S nodejs yarn npm python python-pipenv --noconfirm"]
+
+# create temporary image to download dependancies
+from build as intermediate
 
 # install dependancies
-run ["sh", "-c", "pip install pipenv"]
-run ["sh", "-c", "pipenv lock --keep-outdated --requirements > requirements.txt"]
-run ["sh", "-c", "pip install -r requirements.txt"]
+#run ["sh", "-c", "pip install pipenv"]
+run ["sh", "-c", "pipenv lock --keep-outdated"]
+run ["sh", "-c", "mkdir .venv && pipenv install"]
 
 # runtime
-workdir /jupyter/
 expose $port
-entrypoint ["sh", "-c", "jupyter lab --allow-root --ip $host_ip"]
+entrypoint ["sh", "-c", "pipenv run jupyter lab --allow-root --ip $host_ip --port $port"]
