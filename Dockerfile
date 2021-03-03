@@ -22,7 +22,8 @@ from build as intermediate
 
 # install dependancies
 run ["sh", "-c", "pipenv lock --keep-outdated"]
-run ["sh", "-c", "mkdir .venv && pipenv install"]
+#run ["sh", "-c", "mkdir .venv && pipenv install"]
+run ["sh", "-c", "pipenv install --deploy --system"]
 
 # make shell script an executable
 run ["sh", "-c", "chmod +x startup.sh"]
