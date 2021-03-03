@@ -24,6 +24,9 @@ from build as intermediate
 run ["sh", "-c", "pipenv lock --keep-outdated"]
 run ["sh", "-c", "mkdir .venv && pipenv install"]
 
+# make shell script an executable
+run ["sh", "-c", "chmod +x startup.sh"]
+
 # runtime
 expose $port
 entrypoint ["sh", "-c", "./startup.sh"]
