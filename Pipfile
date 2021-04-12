@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 ipywidgets = "*"
 jupyterlab-git = "*"
-pandas = "*"
 aquirdturtle-collapsible-headings = "*"
 jupyter-contrib-nbextensions = "*"
 
