@@ -15,7 +15,7 @@ copy extensions ./extensions
 
 # install packages
 run ["sh", "-c", "pacman -Syu --noconfirm"]
-run ["sh", "-c", "pacman -S nodejs yarn npm python python-pipenv --noconfirm"]
+run ["sh", "-c", "pacman -S nodejs yarn npm git python python-pipenv --noconfirm"]
 
 # create temporary image to download dependancies
 from build as intermediate
